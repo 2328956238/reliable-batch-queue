@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reliable-batch-queue"
+version = "0.1.0"
+description = "SQLite batch queue with atomic claims, fenced leases and retry scheduling"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: System :: Distributed Computing",
+]
+
+[project.scripts]
+batch-queue-demo = "reliable_batch_queue.demo:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
