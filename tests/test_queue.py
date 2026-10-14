@@ -4,7 +4,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from reliable_batch_queue import BatchQueue
+from reliable_batch_queue import BatchQueue, RetryPolicy
 
 
 class Clock:
@@ -36,7 +36,8 @@ class QueueTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.path = Path(self.temp.name) / "queue.sqlite3"
         self.clock = Clock()
-        self.queue = BatchQueue(self.path, lease_seconds=30, starvation_seconds=100, clock=self.clock)
+        self.queue = BatchQueue(self.path, lease_seconds=30, starvation_seconds=100, clock=self.clock,
+                                retry_policy=RetryPolicy(base_delay_seconds=0))
 
     def claim(self, worker="worker-a", session="session-a", **kwargs):
         claim = self.queue.claim_next(worker, session, **kwargs)
